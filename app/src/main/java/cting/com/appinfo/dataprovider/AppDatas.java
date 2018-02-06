@@ -1,0 +1,36 @@
+package cting.com.appinfo.dataprovider;
+
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import cting.com.appinfo.model.AppInfo;
+
+/**
+ * Created by cting on 2018/2/6.
+ */
+
+public class AppDatas {
+
+    public static ArrayList<AppInfo> getAllInstalledList(Context context) {
+        ArrayList<AppInfo> list = new ArrayList<>();
+        PackageManager packageManager=context.getPackageManager();
+        List<PackageInfo> installedApk = packageManager.getInstalledPackages(0);
+        AppInfo appInfo;
+        for (PackageInfo packageInfo : installedApk) {
+            ApplicationInfo applicationInfo = packageInfo.applicationInfo;
+            appInfo = new AppInfo(packageInfo.packageName,
+                    String.valueOf(applicationInfo.loadLabel(packageManager)),
+                    packageInfo.versionName,
+                    applicationInfo.loadLogo(packageManager),
+                    applicationInfo.sourceDir);
+            list.add(appInfo);
+        }
+        return list;
+    }
+
+}

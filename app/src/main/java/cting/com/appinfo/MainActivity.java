@@ -1,30 +1,34 @@
 package cting.com.appinfo;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cting.com.appinfo.dataprovider.AppDatas;
+import cting.com.appinfo.model.AppInfo;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "cting/appinfo/main";
+
     @BindView(R.id.tv_message)
     TextView mTextMessage;
     @BindView(R.id.scroll_container)
     ScrollView mScrollContainer;
 
-
-    /*@BindView(R.id.message)
-    private TextView mTextMsg;
-
-    private ScrollView mScrollView;*/
+    List<AppInfo> mList;
+    private PackageManager mPkgMgr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +36,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        PackageManager packageManager = getPackageManager();
-        Intent intent = new Intent();
-        List<PackageInfo> installedApk = packageManager.getInstalledPackages(0);
-        for (PackageInfo info : installedApk) {
-//            StringBuilder sb = new StringBuilder();
-//            sb.append(info.packageName);
-            setMessage(info.packageName + "\n");
+        mList = AppDatas.getAllInstalledList(this);
+        for (AppInfo info : mList) {
 
+            Log.i(TAG, "onCreate: " + info + "\n");
+            setMessage(info.getLabel() + ", " + info.getPackageName());
         }
 
     }
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private void setMessage(String message) {
         if (!TextUtils.isEmpty(message)) {
             mTextMessage.append(message);
+            mTextMessage.append("\n");
             mScrollContainer.scrollTo(0, mScrollContainer.getBottom());
         }
     }
