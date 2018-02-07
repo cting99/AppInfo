@@ -5,10 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -23,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    List<AppInfo> mList;
+    private List<AppInfo> mList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +32,8 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        AppInfoRecyclerAdapter adapter = new AppInfoRecyclerAdapter(this,mList);
+        AppInfoRecyclerAdapter adapter = new AppInfoRecyclerAdapter(this, mList);
+        Log.i(TAG, "onCreate: adapter count=" + adapter.getItemCount());
         mRecyclerView.setAdapter(adapter);
 
     }
