@@ -8,12 +8,18 @@
         <variable
             name="appinfo"
             type="cting.com.appinfo.model.AppInfo" />
+
+        <variable
+            name="clickListener"
+            type="cting.com.appinfo.model.ClickItem" />
+
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        android:onClick="@{view->clickListener.onClick(appinfo)}">
 
         <ImageView
             android:id="@+id/app_icon"
@@ -21,9 +27,9 @@
             android:layout_height="@dimen/app_icon_length"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
+            android:src="@{appinfo.icon}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@{appinfo.icon}"
             tools:src="@mipmap/ic_launcher_round" />
 
         <TextView
@@ -33,9 +39,9 @@
             android:layout_marginStart="8dp"
             android:gravity="start|center_vertical"
             android:maxLines="1"
+            android:text="@{appinfo.label}"
             app:layout_constraintStart_toEndOf="@+id/app_icon"
             app:layout_constraintTop_toTopOf="@+id/app_icon"
-            android:text="@{appinfo.label}"
             tools:text="LocationEM2" />
 
         <TextView
@@ -57,10 +63,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
-            android:text="@{appinfo.installPath}"
             android:ellipsize="end"
             android:gravity="start|center_vertical"
             android:maxLines="2"
+            android:text="@{appinfo.installPath}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/app_icon"

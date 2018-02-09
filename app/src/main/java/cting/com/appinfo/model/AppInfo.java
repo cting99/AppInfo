@@ -65,14 +65,14 @@ public class AppInfo {
         this.installPath = installPath;
     }
 
+    public boolean search(String query) {
+        return packageName.toLowerCase().contains(query)
+                || label.toLowerCase().contains(query)
+                || installPath.toLowerCase().contains(query);
+    }
+
     @Override
     public String toString() {
-        return "AppInfo{" +
-                "packageName='" + packageName + '\'' +
-                ", label='" + label + '\'' +
-                ", versionName='" + versionName + '\'' +
-                ", icon=" + icon +
-                ", installPath='" + installPath + '\'' +
-                '}';
+        return label + " {" + packageName + ", " + installPath + "}";
     }
 }
