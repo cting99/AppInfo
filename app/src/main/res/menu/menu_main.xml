@@ -9,4 +9,12 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always" />
 
+
+    <item
+        android:id="@+id/action_export"
+        android:icon="@android:drawable/stat_sys_download_done"
+        android:title="@string/ic_menu_title_export"
+        app:showAsAction="always" />
+
+
 </menu>
