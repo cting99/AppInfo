@@ -1,6 +1,7 @@
 package cting.com.appinfo.model;
 
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
 /**
  * Created by cting on 2018/2/6.

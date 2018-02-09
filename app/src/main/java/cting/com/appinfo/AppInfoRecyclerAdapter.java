@@ -1,7 +1,9 @@
 package cting.com.appinfo;
 
 import android.content.Context;
+import android.databinding.BindingAdapter;
 import android.databinding.DataBindingUtil;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ import java.util.List;
 import cting.com.appinfo.databinding.AppInfoItemBinding;
 import cting.com.appinfo.model.AppInfo;
 import cting.com.appinfo.model.ClickItem;
+import cting.com.appinfo.utils.TextHighlighterHelper;
 
 
 /**
@@ -24,7 +28,7 @@ import cting.com.appinfo.model.ClickItem;
  */
 
 public class AppInfoRecyclerAdapter extends RecyclerView.Adapter<AppInfoRecyclerAdapter.ViewHolder>
-        implements Filterable, ClickItem{
+        implements Filterable, ClickItem {
 
     private static final String TAG = "cting/appinfo/adapter";
 
@@ -32,6 +36,8 @@ public class AppInfoRecyclerAdapter extends RecyclerView.Adapter<AppInfoRecycler
     private List<AppInfo> mList;
     private LayoutInflater mInflater;
     private MyFilter mFilter;
+    private static TextHighlighterHelper mHighlighter = new TextHighlighterHelper();
+    private static String mQueryText;
 
     public AppInfoRecyclerAdapter(Context context, List<AppInfo> list) {
         mContext = context;
@@ -39,8 +45,20 @@ public class AppInfoRecyclerAdapter extends RecyclerView.Adapter<AppInfoRecycler
         mInflater = LayoutInflater.from(context);
     }
 
+    @BindingAdapter("android:text")
+    public static void setSpannableText(@NonNull TextView textView, String text) {
+        if (!TextUtils.isEmpty(text)) {
+            if (mHighlighter != null && !TextUtils.isEmpty(mQueryText)) {
+                mHighlighter.updateHighliteInText(textView, text, mQueryText);
+            } else {
+                textView.setText(text);
+            }
+        }
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         AppInfoItemBinding binding = DataBindingUtil.inflate(mInflater, R.layout.app_info_item, parent, false);
         return new ViewHolder(binding);
     }
@@ -62,6 +80,7 @@ public class AppInfoRecyclerAdapter extends RecyclerView.Adapter<AppInfoRecycler
     }
 
     public void startQuery(String query) {
+        mQueryText = query;
         getFilter().filter(query);
     }
 
@@ -78,10 +97,10 @@ public class AppInfoRecyclerAdapter extends RecyclerView.Adapter<AppInfoRecycler
         Toast.makeText(mContext, "click " + info.getLabel(), Toast.LENGTH_SHORT).show();
     }
 
-
     public class MyFilter extends Filter {
 
         List<AppInfo> unfilteredList;
+
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
@@ -93,7 +112,7 @@ public class AppInfoRecyclerAdapter extends RecyclerView.Adapter<AppInfoRecycler
 
             if (TextUtils.isEmpty(constraint)) {
                 resultList = unfilteredList;
-            }else {
+            } else {
                 String queryTextLowerCase = constraint.toString().toLowerCase();
                 resultList = new ArrayList<>(unfilteredList.size());
 

@@ -1,6 +1,5 @@
 package cting.com.appinfo.dataprovider;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
