@@ -22,7 +22,7 @@ import cting.com.appinfo.dataprovider.AppDatas;
 import cting.com.appinfo.model.AppInfo;
 import cting.com.appinfo.utils.FileHelper;
 
-public class AppListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class AppListActivity extends BasePermissionCheckActivity implements SearchView.OnQueryTextListener {
     private static final String TAG = "cting/appinfo/listAct";
     private static final String FILE_NAME = Environment.getExternalStorageDirectory() + "/app_list.txt";
 
