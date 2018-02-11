@@ -1,7 +1,6 @@
 package cting.com.appinfo.model;
 
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
 
 import cting.com.appinfo.searchable.SearchableItem;
 

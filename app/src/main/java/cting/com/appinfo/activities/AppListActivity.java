@@ -1,18 +1,20 @@
 package cting.com.appinfo.activities;
 
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
 
-import cting.com.appinfo.adapter.AppInfoRecyclerAdapter;
+import cting.com.appinfo.R;
+import cting.com.appinfo.databinding.AppInfoItemBinding;
 import cting.com.appinfo.dataprovider.AppDatas;
 import cting.com.appinfo.model.AppInfoItem;
 import cting.com.appinfo.searchable.SearchableRecyclerAdapter;
 import cting.com.appinfo.utils.FileHelper;
 
-public class AppListActivity extends BaseListActivity{
+public class AppListActivity extends BaseSearchableListActivity {
     private static final String TAG = "cting/appinfo/listAct";
     private static final String FILE_NAME = Environment.getExternalStorageDirectory() + "/app_list.txt";
 
@@ -42,7 +44,27 @@ public class AppListActivity extends BaseListActivity{
 
     @Override
     protected SearchableRecyclerAdapter getAdapter() {
-        return new AppInfoRecyclerAdapter(this, AppDatas.getAllInstalledList(this));
+        return new MyAdapter(this, AppDatas.getAllInstalledList(this));
     }
 
+
+    private class MyAdapter extends SearchableRecyclerAdapter<AppInfoItem,AppInfoItemBinding> {
+
+        public MyAdapter(Context context, List<AppInfoItem> dataList) {
+            super(context, dataList);
+        }
+
+        @Override
+        public int getLayoutId() {
+            return R.layout.app_info_item;
+        }
+
+        @Override
+        public void bindData(AppInfoItemBinding binding, AppInfoItem item) {
+            binding.setAppinfo(item);
+            binding.setAdapter(this);
+            binding.executePendingBindings();
+
+        }
+    }
 }

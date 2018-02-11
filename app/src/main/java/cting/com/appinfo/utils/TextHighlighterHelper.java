@@ -55,7 +55,7 @@ public class TextHighlighterHelper {
     }
 
     public void updateHighliteInText(@NonNull TextView view, @NonNull String text, @NonNull String keyword) {
-        if (view == null || TextUtils.isEmpty(text) || TextUtils.isEmpty(keyword)) {
+        if (TextUtils.isEmpty(text) || TextUtils.isEmpty(keyword)) {
             return;
         }
         view.setText(applyHighlight(text, keyword));
@@ -79,6 +79,7 @@ public class TextHighlighterHelper {
 
     public SpannableString applyHighlights(String text, String[] keyword) {
         if (TextUtils.isEmpty(text) || keyword == null) {
+            return null;
         }
         SpannableString spannableString = new SpannableString(text);
         for (String s : keyword) {

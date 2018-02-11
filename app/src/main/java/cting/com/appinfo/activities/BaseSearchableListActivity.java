@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import cting.com.appinfo.R;
 import cting.com.appinfo.searchable.SearchableRecyclerAdapter;
 
-public abstract class BaseListActivity extends BasePermissionCheckActivity implements SearchView.OnQueryTextListener {
+public abstract class BaseSearchableListActivity extends BasePermissionCheckActivity implements SearchView.OnQueryTextListener {
     private static final String TAG = "cting/list_activity";
 
     @BindView(R.id.recycler_view)
@@ -34,7 +34,6 @@ public abstract class BaseListActivity extends BasePermissionCheckActivity imple
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mAdapter = getAdapter();
         mRecyclerView.setAdapter(mAdapter);
-
     }
 
     @Override
