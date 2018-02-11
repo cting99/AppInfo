@@ -7,11 +7,11 @@
     <data>
         <variable
             name="appinfo"
-            type="cting.com.appinfo.model.AppInfo" />
+            type="cting.com.appinfo.model.AppInfoItem" />
 
         <variable
-            name="clickListener"
-            type="cting.com.appinfo.model.ClickItem" />
+            name="adapter"
+            type="cting.com.appinfo.searchable.SearchableRecyclerAdapter" />
 
     </data>
 
@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:onClick="@{view->clickListener.onClick(appinfo)}">
+        android:onClick="@{view->adapter.onItemClick(appinfo)}">
 
         <ImageView
             android:id="@+id/app_icon"
@@ -39,7 +39,8 @@
             android:layout_marginStart="8dp"
             android:gravity="start|center_vertical"
             android:maxLines="1"
-            android:text="@{appinfo.label}"
+            app:searchableText="@{appinfo.label}"
+            app:keywords="@{adapter.query}"
             app:layout_constraintStart_toEndOf="@+id/app_icon"
             app:layout_constraintTop_toTopOf="@+id/app_icon"
             tools:text="LocationEM2" />
@@ -66,7 +67,8 @@
             android:ellipsize="end"
             android:gravity="start|center_vertical"
             android:maxLines="2"
-            android:text="@{appinfo.installPath}"
+            app:searchableText="@{appinfo.installPath}"
+            app:keywords="@{adapter.query}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/app_icon"

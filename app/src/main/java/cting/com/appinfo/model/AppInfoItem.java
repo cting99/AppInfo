@@ -3,11 +3,13 @@ package cting.com.appinfo.model;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
+import cting.com.appinfo.searchable.SearchableItem;
+
 /**
  * Created by cting on 2018/2/6.
  */
 
-public class AppInfo {
+public class AppInfoItem implements SearchableItem {
 
     private String packageName;
     private String label;
@@ -15,10 +17,10 @@ public class AppInfo {
     private Drawable icon;
     private String installPath;
 
-    public AppInfo() {
+    public AppInfoItem() {
     }
 
-    public AppInfo(String packageName, String label, String versionName, Drawable icon, String installPath) {
+    public AppInfoItem(String packageName, String label, String versionName, Drawable icon, String installPath) {
         this.packageName = packageName;
         this.label = label;
         this.versionName = versionName;
@@ -66,14 +68,16 @@ public class AppInfo {
         this.installPath = installPath;
     }
 
-    public boolean search(String query) {
-        return packageName.toLowerCase().contains(query)
-                || label.toLowerCase().contains(query)
-                || installPath.toLowerCase().contains(query);
-    }
 
     @Override
     public String toString() {
         return label + " {" + packageName + ", " + installPath + "}";
+    }
+
+    @Override
+    public boolean containKeywords(String queryText) {
+        return packageName.toLowerCase().contains(queryText)
+                || label.toLowerCase().contains(queryText)
+                || installPath.toLowerCase().contains(queryText);
     }
 }

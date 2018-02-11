@@ -22,16 +22,23 @@ public class TextHighlighterHelper {
 
     private CharacterStyle[] mStyle;
 
-    public TextHighlighterHelper() {
-        initDefaultStyles();
+    private static final TextHighlighterHelper ourInstance = new TextHighlighterHelper();
+
+    public static TextHighlighterHelper getInstance() {
+        return ourInstance;
     }
 
-    public TextHighlighterHelper(CharacterStyle[] characterStyles) {
+    public static TextHighlighterHelper getInstance(CharacterStyle[] characterStyles) {
         if (characterStyles == null) {
-            initDefaultStyles();
+            ourInstance.initDefaultStyles();
         } else {
-            mStyle = characterStyles;
+            ourInstance.mStyle = characterStyles;
         }
+        return ourInstance;
+    }
+
+    private TextHighlighterHelper() {
+        initDefaultStyles();
     }
 
     private void initDefaultStyles() {
@@ -48,6 +55,9 @@ public class TextHighlighterHelper {
     }
 
     public void updateHighliteInText(@NonNull TextView view, @NonNull String text, @NonNull String keyword) {
+        if (view == null || TextUtils.isEmpty(text) || TextUtils.isEmpty(keyword)) {
+            return;
+        }
         view.setText(applyHighlight(text, keyword));
     }
 
@@ -68,6 +78,8 @@ public class TextHighlighterHelper {
     }
 
     public SpannableString applyHighlights(String text, String[] keyword) {
+        if (TextUtils.isEmpty(text) || keyword == null) {
+        }
         SpannableString spannableString = new SpannableString(text);
         for (String s : keyword) {
             applyHighlight(text, s);

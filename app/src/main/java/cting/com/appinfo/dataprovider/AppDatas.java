@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import cting.com.appinfo.model.AppInfo;
+import cting.com.appinfo.model.AppInfoItem;
 
 /**
  * Created by cting on 2018/2/6.
@@ -18,15 +18,15 @@ import cting.com.appinfo.model.AppInfo;
 
 public class AppDatas {
 
-    public static ArrayList<AppInfo> getAllInstalledList(Context context) {
-        ArrayList<AppInfo> list = new ArrayList<>();
+    public static ArrayList<AppInfoItem> getAllInstalledList(Context context) {
+        ArrayList<AppInfoItem> list = new ArrayList<>();
         PackageManager packageManager=context.getPackageManager();
         List<PackageInfo> installedApk = packageManager.getInstalledPackages(0);
         ApplicationInfo applicationInfo;
-        AppInfo appInfo;
+        AppInfoItem appInfo;
         for (PackageInfo packageInfo : installedApk) {
             applicationInfo = packageInfo.applicationInfo;
-            appInfo = new AppInfo(packageInfo.packageName,
+            appInfo = new AppInfoItem(packageInfo.packageName,
                     String.valueOf(applicationInfo.loadLabel(packageManager)),
                     packageInfo.versionName,
                     applicationInfo.loadIcon(packageManager),
@@ -34,9 +34,9 @@ public class AppDatas {
             list.add(appInfo);
         }
 
-        Collections.sort(list, new Comparator<AppInfo>() {
+        Collections.sort(list, new Comparator<AppInfoItem>() {
             @Override
-            public int compare(AppInfo o1, AppInfo o2) {
+            public int compare(AppInfoItem o1, AppInfoItem o2) {
                 return o1.getLabel().compareTo(o2.getLabel());
             }
 
