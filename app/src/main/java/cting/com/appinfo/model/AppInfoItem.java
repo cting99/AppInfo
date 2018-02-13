@@ -1,14 +1,16 @@
 package cting.com.appinfo.model;
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import cting.com.appinfo.searchable.SearchableItem;
+import cting.com.appinfo.searchable.model.ISearchableItem;
 
 /**
  * Created by cting on 2018/2/6.
  */
 
-public class AppInfoItem implements SearchableItem {
+public class AppInfoItem implements ISearchableItem,Parcelable {
 
     private String packageName;
     private String label;
@@ -26,6 +28,25 @@ public class AppInfoItem implements SearchableItem {
         this.icon = icon;
         this.installPath = installPath;
     }
+
+    protected AppInfoItem(Parcel in) {
+        packageName = in.readString();
+        label = in.readString();
+        versionName = in.readString();
+        installPath = in.readString();
+    }
+
+    public static final Creator<AppInfoItem> CREATOR = new Creator<AppInfoItem>() {
+        @Override
+        public AppInfoItem createFromParcel(Parcel in) {
+            return new AppInfoItem(in);
+        }
+
+        @Override
+        public AppInfoItem[] newArray(int size) {
+            return new AppInfoItem[size];
+        }
+    };
 
     public String getPackageName() {
         return packageName;
@@ -78,5 +99,18 @@ public class AppInfoItem implements SearchableItem {
         return packageName.toLowerCase().contains(queryText)
                 || label.toLowerCase().contains(queryText)
                 || installPath.toLowerCase().contains(queryText);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(packageName);
+        parcel.writeString(label);
+        parcel.writeString(versionName);
+        parcel.writeString(installPath);
     }
 }

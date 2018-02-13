@@ -7,40 +7,38 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import cting.com.appinfo.model.AppInfoItem;
+import cting.com.appinfo.searchable.model.IClick;
+import cting.com.appinfo.searchable.model.ISearchableItem;
 
 /**
  * Created by cting on 2018/2/10.
  */
 
-public abstract class SearchableRecyclerAdapter<I extends SearchableItem, B extends ViewDataBinding>
-        extends RecyclerView.Adapter<SearchableRecyclerAdapter<I, B>.ViewHolder>
+public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends ViewDataBinding>
+        extends RecyclerView.Adapter<SearchableRecyclerAdapter.ViewHolder>
         implements Filterable {
-
-    public abstract int getLayoutId();
-    public abstract void bindData(B binding,I item);
 
     public static final String TAG = "cting/searchableadapter";
 
-    protected static LayoutInflater inflater;
-    private Context context;
-    private List<I> dataList;
+    protected LayoutInflater inflater;
+    private ArrayList<I> dataList;
     private MyFilter filter;
-    private String query;
+    private Callbacks callbacks;
 
-    public SearchableRecyclerAdapter(Context context, List<I> dataList) {
-        this.context = context;
+    public SearchableRecyclerAdapter(Context context, ArrayList<I> dataList, Callbacks<I, B> callbacks) {
+        if (callbacks == null) {
+            throw new RuntimeException("SearchableRecyclerAdapter.Callbacks must not be null!");
+        }
+        this.callbacks = callbacks;
         this.dataList = dataList;
-        inflater = LayoutInflater.from(context);
-        query = "";
+        this.inflater = LayoutInflater.from(context);
     }
 
     protected I getItem(int position) {
@@ -49,28 +47,20 @@ public abstract class SearchableRecyclerAdapter<I extends SearchableItem, B exte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        B binding = DataBindingUtil.inflate(inflater, getLayoutId(), parent, false);
+        B binding = DataBindingUtil.inflate(inflater, callbacks.getItemLayoutId(), parent, false);
         return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         I item = getItem(position);
-        bindData(holder.binding, item);
+        callbacks.bindItemData(item, holder.binding);
+        holder.binding.executePendingBindings();
     }
-
 
     @Override
     public int getItemCount() {
         return dataList.size();
-    }
-
-    public List<I> getDataList() {
-        return dataList;
-    }
-
-    public void setDataList(List<I> dataList) {
-        this.dataList = dataList;
     }
 
     @Override
@@ -82,27 +72,18 @@ public abstract class SearchableRecyclerAdapter<I extends SearchableItem, B exte
     }
 
     public void setQuery(String query) {
-        this.query = query;
         Log.i(TAG, "setQuery: " + query);
         getFilter().filter(query);
     }
 
-    public String getQuery() {
-        return query;
-    }
-
-    public void onItemClick(AppInfoItem appInfoItem) {
-        Toast.makeText(context, "click " + appInfoItem.getLabel(), Toast.LENGTH_SHORT).show();
-    }
-
     public class MyFilter extends Filter {
 
-        List<I> unfilteredList;
+        ArrayList<I> unfilteredList;
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
-            List<I> resultList;
+            ArrayList<I> resultList;
 
             if (unfilteredList == null) {
                 unfilteredList = new ArrayList<>(dataList);
@@ -127,17 +108,39 @@ public abstract class SearchableRecyclerAdapter<I extends SearchableItem, B exte
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            dataList = (List<I>) results.values;
+            dataList = (ArrayList<I>) results.values;
             notifyDataSetChanged();
         }
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public B binding;
+    public class ViewHolder<DB extends ViewDataBinding>
+            extends RecyclerView.ViewHolder
+            implements View.OnLongClickListener, View.OnClickListener {
+        public DB binding;
 
-        public ViewHolder(B binding) {
+        public ViewHolder(DB binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.getRoot().setOnClickListener(this);
+            binding.getRoot().setOnLongClickListener(this);
         }
+
+        @Override
+        public boolean onLongClick(View v) {
+            Log.i(TAG, "onLongClick: ");
+            return callbacks.onItemLongClick(getItem(getAdapterPosition()));
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.i(TAG, "onClick: ");
+            callbacks.onItemClick(getItem(getAdapterPosition()));
+        }
+    }
+
+    public interface Callbacks<I extends ISearchableItem, B extends ViewDataBinding>
+            extends IClick<I> {
+        int getItemLayoutId();
+        void bindItemData(I item, B binding);
     }
 }
