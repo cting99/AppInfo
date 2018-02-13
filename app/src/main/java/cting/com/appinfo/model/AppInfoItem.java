@@ -4,29 +4,22 @@ import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 import cting.com.appinfo.searchable.model.ISearchableItem;
 
 /**
  * Created by cting on 2018/2/6.
  */
 
-public class AppInfoItem implements ISearchableItem,Parcelable {
+public class AppInfoItem implements ISearchableItem, Parcelable {
 
     private String packageName;
     private String label;
     private String versionName;
-    private Drawable icon;
     private String installPath;
 
     public AppInfoItem() {
-    }
-
-    public AppInfoItem(String packageName, String label, String versionName, Drawable icon, String installPath) {
-        this.packageName = packageName;
-        this.label = label;
-        this.versionName = versionName;
-        this.icon = icon;
-        this.installPath = installPath;
     }
 
     protected AppInfoItem(Parcel in) {
@@ -72,14 +65,6 @@ public class AppInfoItem implements ISearchableItem,Parcelable {
         this.versionName = versionName;
     }
 
-    public Drawable getIcon() {
-        return icon;
-    }
-
-    public void setIcon(Drawable icon) {
-        this.icon = icon;
-    }
-
     public String getInstallPath() {
         return installPath;
     }
@@ -91,7 +76,7 @@ public class AppInfoItem implements ISearchableItem,Parcelable {
 
     @Override
     public String toString() {
-        return label + " {" + packageName + ", " + installPath + "}";
+        return label + " {" + packageName + ", " + versionName + "," + installPath + "}";
     }
 
     @Override

@@ -5,21 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="appinfo"
-            type="cting.com.appinfo.model.AppInfoItem" />
+        <import type="android.graphics.drawable.Drawable" />
+        <import type="cting.com.appinfo.model.AppInfoItem" />
+        <import type="cting.com.appinfo.searchable.model.IQuery" />
 
-        <variable
-            name="queryListener"
-            type="cting.com.appinfo.searchable.model.IQuery" />
+        <variable name="icon" type="Drawable" />
+        <variable name="appinfo" type="AppInfoItem" />
+        <variable name="queryListener" type="IQuery" />
+
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
         android:background="?attr/selectableItemBackground"
-        >
+        android:padding="8dp">
 
         <ImageView
             android:id="@+id/app_icon"
@@ -27,7 +27,7 @@
             android:layout_height="@dimen/app_icon_length"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:src="@{appinfo.icon}"
+            android:src="@{icon ?? @drawable/icon_default}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@mipmap/ic_launcher_round" />

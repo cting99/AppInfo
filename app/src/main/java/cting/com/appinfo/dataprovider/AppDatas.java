@@ -26,11 +26,11 @@ public class AppDatas {
         AppInfoItem appInfo;
         for (PackageInfo packageInfo : installedApk) {
             applicationInfo = packageInfo.applicationInfo;
-            appInfo = new AppInfoItem(packageInfo.packageName,
-                    String.valueOf(applicationInfo.loadLabel(packageManager)),
-                    packageInfo.versionName,
-                    applicationInfo.loadIcon(packageManager),
-                    applicationInfo.sourceDir);
+            appInfo = new AppInfoItem();
+            appInfo.setPackageName(packageInfo.packageName);
+            appInfo.setLabel(String.valueOf(applicationInfo.loadLabel(packageManager)));
+            appInfo.setVersionName(packageInfo.versionName);
+            appInfo.setInstallPath(applicationInfo.sourceDir);
             list.add(appInfo);
         }
 
