@@ -25,7 +25,7 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
         extends RecyclerView.Adapter<SearchableRecyclerAdapter.ViewHolder>
         implements Filterable {
 
-    public static final String TAG = "cting/searchableadapter";
+    public static final String TAG = "cting/search/adapter";
 
     protected LayoutInflater inflater;
     private ArrayList<I> dataList;

@@ -18,7 +18,6 @@ import java.util.regex.Pattern;
  * Highlights the text in a text field.
  */
 public class TextHighlighterHelper {
-    private final static boolean DEBUG = false;
 
     private CharacterStyle[] mStyle;
 

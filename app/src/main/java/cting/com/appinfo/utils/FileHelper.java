@@ -1,8 +1,11 @@
 package cting.com.appinfo.utils;
 
+import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,12 +18,26 @@ import java.io.OutputStream;
  */
 
 public class FileHelper {
-    private static final String TAG="cting/appin/filehelper";
+    private static final String TAG="cting/util/file";
 
-    public static boolean exportToFile(String content, String fileName) {
+    public static final String DIR_ROBIN_TOOL = "/RobinTool/";
+    public static final String DIR = Environment.getExternalStorageDirectory() + DIR_ROBIN_TOOL;
+
+
+    public static final File makeDirIfNotExist(String fileName) {
+        File file = new File(fileName);
+        File dir = file.getParentFile();
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        return file;
+    }
+
+    public static boolean exportToFile(@NonNull String content, @NonNull String fileName) {
         OutputStream out = null;
         try {
-            out = new FileOutputStream(fileName);
+            File file = makeDirIfNotExist(fileName);
+            out = new FileOutputStream(file);
             out.write(content.getBytes());
             return true;
         } catch (IOException e) {
@@ -39,7 +56,7 @@ public class FileHelper {
         }
     }
 
-    public static String importFromFile(String fileName) {
+    public static String importFromFile(@NonNull String fileName) {
         StringBuilder sb = new StringBuilder();
         InputStream in = null;
         try {

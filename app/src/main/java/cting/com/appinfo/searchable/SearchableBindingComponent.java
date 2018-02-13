@@ -13,7 +13,7 @@ import cting.com.appinfo.utils.TextHighlighterHelper;
 
 public class SearchableBindingComponent {
 
-    public static final String TAG = "cting/searchable/cn";
+    public static final String TAG = "cting/search/cn";
 
 
     @BindingAdapter({"searchableText", "keywords"})

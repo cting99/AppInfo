@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 public class PermissionHelper {
-    public static final String TAG = "cting/permission";
+    public static final String TAG = "cting/util/permission";
 
     private static final int REQUEST_PERMISSION_CODE = 1;
     public static final String[] REQUEST_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};

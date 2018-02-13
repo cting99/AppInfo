@@ -22,7 +22,7 @@ import cting.com.appinfo.utils.FileHelper;
 public class AppListFragment extends SearchableListFragment<AppInfoItem,AppInfoItemBinding> {
 
     private static final String TAG = "cting/appinfo/fragment";
-    private static final String FILE_NAME = Environment.getExternalStorageDirectory() + "/app_list.txt";
+    private static final String FILE_NAME = FileHelper.DIR + "app_list.txt";
 
     public AppListFragment() {
     }
