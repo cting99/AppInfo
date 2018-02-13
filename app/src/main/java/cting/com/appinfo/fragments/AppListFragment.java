@@ -2,12 +2,14 @@ package cting.com.appinfo.fragments;
 
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import cting.com.appinfo.R;
+import cting.com.appinfo.activities.TextActivity;
 import cting.com.appinfo.databinding.AppInfoItemBinding;
 import cting.com.appinfo.model.AppInfoItem;
 import cting.com.appinfo.searchable.SearchableListFragment;
@@ -59,15 +61,19 @@ public class AppListFragment extends SearchableListFragment<AppInfoItem,AppInfoI
                         .append("\n");
             }
             boolean succeed = FileHelper.exportToFile(sb.toString(), FILE_NAME);
-            Toast.makeText(getContext(), "export to " + FILE_NAME + (succeed ? " succeed" : " failed"),
+            Toast.makeText(getContext(), items.size()+" results export to " + FILE_NAME + (succeed ? " succeed" : " failed"),
                     Toast.LENGTH_SHORT).show();
-            Log.i(TAG, "onOptionsItemSelected: export to " + FILE_NAME + (succeed ? " succeed" : " failed"));
         }
     }
 
     @Override
     public void importData() {
-
+        String content = FileHelper.importFromFile(FILE_NAME);
+        if (TextUtils.isEmpty(content)) {
+            Toast.makeText(getContext(), "import " + FILE_NAME + " result empty!", Toast.LENGTH_SHORT).show();
+        } else {
+            TextActivity.startShowMessage(getContext(),content);
+        }
     }
 
 

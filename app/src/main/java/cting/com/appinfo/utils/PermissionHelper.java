@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,7 +19,7 @@ public class PermissionHelper {
     public static final String TAG = "cting/permission";
 
     private static final int REQUEST_PERMISSION_CODE = 1;
-    private static final String[] REQUEST_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    public static final String[] REQUEST_PERMISSIONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     private static final PermissionHelper ourInstance = new PermissionHelper();
 
@@ -29,10 +30,10 @@ public class PermissionHelper {
     private PermissionHelper() {
     }
 
-    public void checkPermission(Activity activity) {
+    public void checkPermission(Activity activity, @NonNull String[] permissions) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             List<String> permissionNeedGranted = new ArrayList<>();
-            for (String permission : REQUEST_PERMISSIONS) {
+            for (String permission : permissions) {
                 if (activity.checkSelfPermission(permission)== PackageManager.PERMISSION_DENIED) {
                     permissionNeedGranted.add(permission);
                 }
@@ -43,6 +44,8 @@ public class PermissionHelper {
             }
         }
     }
+
+
 
 
     public void onPermissionResult(Activity activity,

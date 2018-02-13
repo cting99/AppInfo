@@ -111,7 +111,7 @@ public abstract class SearchableListFragment<I extends ISearchableItem, B extend
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_export:
-                exportData(mDataList);
+                exportData(mAdapter.getCurrentData());
                 break;
             case R.id.action_import:
                 importData();

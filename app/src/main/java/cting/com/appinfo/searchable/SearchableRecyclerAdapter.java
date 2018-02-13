@@ -76,6 +76,10 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
         getFilter().filter(query);
     }
 
+    public ArrayList<I> getCurrentData() {
+        return dataList;
+    }
+
     public class MyFilter extends Filter {
 
         ArrayList<I> unfilteredList;
