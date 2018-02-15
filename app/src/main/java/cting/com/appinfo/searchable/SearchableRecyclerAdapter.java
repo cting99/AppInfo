@@ -6,6 +6,7 @@ import android.databinding.ViewDataBinding;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,14 +32,21 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
     private ArrayList<I> dataList;
     private MyFilter filter;
     private Callbacks callbacks;
+    private Context context;
+    private int backgroundResId;
 
     public SearchableRecyclerAdapter(Context context, ArrayList<I> dataList, Callbacks<I, B> callbacks) {
         if (callbacks == null) {
             throw new RuntimeException("SearchableRecyclerAdapter.Callbacks must not be null!");
         }
+        this.context = context;
         this.callbacks = callbacks;
         this.dataList = dataList;
         this.inflater = LayoutInflater.from(context);
+
+        TypedValue typedValue = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, typedValue, true);
+        this.backgroundResId = typedValue.resourceId;
     }
 
     protected I getItem(int position) {
@@ -72,7 +80,7 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
     }
 
     public void setQuery(String query) {
-        Log.i(TAG, "setQuery: " + query);
+//        Log.i(TAG, "setQuery: " + query);
         getFilter().filter(query);
     }
 
@@ -117,6 +125,7 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
         }
     }
 
+
     public class ViewHolder<DB extends ViewDataBinding>
             extends RecyclerView.ViewHolder
             implements View.OnLongClickListener, View.OnClickListener {
@@ -125,19 +134,23 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
         public ViewHolder(DB binding) {
             super(binding.getRoot());
             this.binding = binding;
+            if (binding.getRoot().getBackground() == null) {
+                Log.i(TAG, "ViewHolder: setBackground");
+                binding.getRoot().setBackgroundResource(backgroundResId);
+            }
             binding.getRoot().setOnClickListener(this);
             binding.getRoot().setOnLongClickListener(this);
         }
 
         @Override
         public boolean onLongClick(View v) {
-            Log.i(TAG, "onLongClick: ");
+//            Log.i(TAG, "onLongClick: ");
             return callbacks.onItemLongClick(getItem(getAdapterPosition()));
         }
 
         @Override
         public void onClick(View v) {
-            Log.i(TAG, "onClick: ");
+//            Log.i(TAG, "onClick: ");
             callbacks.onItemClick(getItem(getAdapterPosition()));
         }
     }
