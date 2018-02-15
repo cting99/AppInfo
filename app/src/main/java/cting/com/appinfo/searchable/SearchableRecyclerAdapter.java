@@ -35,13 +35,12 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
     private Context context;
     private int backgroundResId;
 
-    public SearchableRecyclerAdapter(Context context, ArrayList<I> dataList, Callbacks<I, B> callbacks) {
+    public SearchableRecyclerAdapter(Context context, Callbacks<I, B> callbacks) {
         if (callbacks == null) {
             throw new RuntimeException("SearchableRecyclerAdapter.Callbacks must not be null!");
         }
         this.context = context;
         this.callbacks = callbacks;
-        this.dataList = dataList;
         this.inflater = LayoutInflater.from(context);
 
         TypedValue typedValue = new TypedValue();
@@ -49,7 +48,15 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
         this.backgroundResId = typedValue.resourceId;
     }
 
+    public SearchableRecyclerAdapter(Context context, ArrayList<I> dataList, Callbacks<I, B> callbacks) {
+        this(context, callbacks);
+        this.dataList = dataList;
+    }
+
     protected I getItem(int position) {
+        if (dataList == null) {
+            return null;
+        }
         return dataList.get(position);
     }
 
@@ -68,6 +75,9 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
 
     @Override
     public int getItemCount() {
+        if (dataList == null) {
+            return 0;
+        }
         return dataList.size();
     }
 
@@ -86,6 +96,11 @@ public class SearchableRecyclerAdapter<I extends ISearchableItem, B extends View
 
     public ArrayList<I> getCurrentData() {
         return dataList;
+    }
+
+    public void setDataList(ArrayList<I> dataList) {
+        this.dataList = dataList;
+        notifyDataSetChanged();
     }
 
     public class MyFilter extends Filter {

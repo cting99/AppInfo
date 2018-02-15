@@ -1,14 +1,9 @@
 package cting.com.appinfo.activities;
 
 import android.os.Bundle;
-import android.util.Log;
-
-import java.util.ArrayList;
 
 import cting.com.appinfo.R;
-import cting.com.appinfo.dataprovider.AppDatas;
 import cting.com.appinfo.fragments.AppListFragment;
-import cting.com.appinfo.model.AppInfoItem;
 
 public class AppListActivity extends BasePermissionCheckActivity {
 
@@ -19,9 +14,7 @@ public class AppListActivity extends BasePermissionCheckActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<AppInfoItem> dataList = AppDatas.getAllInstalledList(this);
-        Log.i(TAG, "onCreate: " + dataList);
-        AppListFragment fragment = AppListFragment.newInstance(dataList);
+        AppListFragment fragment = new AppListFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.container, fragment)
                 .commit();

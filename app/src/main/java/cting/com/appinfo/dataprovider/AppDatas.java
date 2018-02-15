@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.SystemClock;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +20,10 @@ import cting.com.appinfo.model.AppInfoItem;
 
 public class AppDatas {
 
+    public static final String TAG = "cting/data/appinfo";
+
     public static ArrayList<AppInfoItem> getAllInstalledList(Context context) {
+        long time = SystemClock.currentThreadTimeMillis();
         ArrayList<AppInfoItem> list = new ArrayList<>();
         PackageManager packageManager=context.getPackageManager();
         List<PackageInfo> installedApk = packageManager.getInstalledPackages(0);
@@ -41,6 +46,8 @@ public class AppDatas {
             }
 
         });
+        time = SystemClock.currentThreadTimeMillis() - time;
+        Log.i(TAG, "getAllInstalledList: cost " + time + " ms");
         return list;
     }
 

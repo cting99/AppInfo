@@ -58,15 +58,6 @@ public abstract class SearchableListFragment<I extends ISearchableItem, B extend
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle bundle = getArguments();
-        Log.i(TAG, "onCreate: bundle=" + bundle);
-        if (bundle != null && bundle.containsKey(KEY_DATA_LIST)) {
-            mDataList = (ArrayList<I>) bundle.get(KEY_DATA_LIST);
-        }
-        if (mDataList == null) {
-            throw new RuntimeException(getContext().toString() + " must pass a valid data list!");
-        }
-
         setHasOptionsMenu(true);
     }
 
@@ -76,20 +67,20 @@ public abstract class SearchableListFragment<I extends ISearchableItem, B extend
         unbinder = ButterKnife.bind(this, view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
-        mAdapter = new SearchableRecyclerAdapter(getContext(), mDataList, this);
-        mRecyclerView.setAdapter(mAdapter);
+        updateApapter();
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
+    protected void updateApapter() {
+        if (mAdapter == null) {
+            mAdapter = new SearchableRecyclerAdapter(getContext(), this);
+            mRecyclerView.setAdapter(mAdapter);
+        }
+        if (mDataList != null) {
+            mAdapter.setDataList(mDataList);
+        }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
     @Override
     public void onDestroyView() {

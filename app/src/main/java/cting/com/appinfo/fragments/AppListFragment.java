@@ -1,10 +1,15 @@
 package cting.com.appinfo.fragments;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.AsyncTaskLoader;
+import android.support.v4.content.Loader;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,6 +20,7 @@ import java.util.List;
 import cting.com.appinfo.R;
 import cting.com.appinfo.activities.TextActivity;
 import cting.com.appinfo.databinding.AppInfoItemBinding;
+import cting.com.appinfo.dataprovider.AppDatas;
 import cting.com.appinfo.model.AppInfoItem;
 import cting.com.appinfo.searchable.SearchableListFragment;
 import cting.com.appinfo.utils.FileHelper;
@@ -24,23 +30,17 @@ import cting.com.appinfo.utils.JSONHelper;
  * Created by cting on 2018/2/13.
  */
 
-public class AppListFragment extends SearchableListFragment<AppInfoItem, AppInfoItemBinding> {
+public class AppListFragment extends LoaderFragment<AppInfoItem, AppInfoItemBinding>{
 
     private static final String TAG = "cting/appinfo/fragment";
     private static final String FILE_NAME = FileHelper.DIR + "app_list.txt";
     private static final String FILE_NAME_JSON = FileHelper.DIR + "app_list.json";
     private static final boolean DEBUG_GSON = true;
 
-    private PackageManager mPkgMgr;
-    public AppListFragment() {
-    }
 
-    public static AppListFragment newInstance(ArrayList<AppInfoItem> data) {
-        AppListFragment fragment = new AppListFragment();
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList(KEY_DATA_LIST, data);
-        fragment.setArguments(bundle);
-        return fragment;
+    private PackageManager mPkgMgr;
+
+    public AppListFragment() {
     }
 
     @Override
@@ -49,6 +49,7 @@ public class AppListFragment extends SearchableListFragment<AppInfoItem, AppInfo
         mPkgMgr = getActivity().getPackageManager();
     }
 
+    // for SearchableRecyclerAdapter.Callbacks
     @Override
     public int getItemLayoutId() {
         return R.layout.app_info_item;
@@ -66,6 +67,7 @@ public class AppListFragment extends SearchableListFragment<AppInfoItem, AppInfo
         binding.setQueryListener(this);
     }
 
+    // for IDataImportExport
     @Override
     public void exportData(ArrayList<AppInfoItem> items) {
         if (DEBUG_GSON) {
@@ -104,7 +106,7 @@ public class AppListFragment extends SearchableListFragment<AppInfoItem, AppInfo
         }
     }
 
-
+    // for IClick
     @Override
     public void onItemClick(AppInfoItem item) {
         Toast.makeText(getContext(), "click " + item.getLabel(), Toast.LENGTH_SHORT).show();
@@ -116,4 +118,31 @@ public class AppListFragment extends SearchableListFragment<AppInfoItem, AppInfo
         Toast.makeText(getContext(), "long click " + item.getLabel(), Toast.LENGTH_SHORT).show();
         return true;
     }
+
+
+    // for loader callback
+    @Override
+    public Loader<ArrayList<AppInfoItem>> onCreateLoader(int id, Bundle args) {
+        return new AppInfoLoader(getContext());
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<AppInfoItem>> loader) {
+
+    }
+
+    private static class AppInfoLoader extends AsyncTaskLoader<ArrayList<AppInfoItem>> {
+        Context context;
+
+        public AppInfoLoader(Context context) {
+            super(context);
+            this.context = context;
+        }
+
+        @Override
+        public ArrayList<AppInfoItem> loadInBackground() {
+            return AppDatas.getAllInstalledList(context);
+        }
+    }
 }
+
