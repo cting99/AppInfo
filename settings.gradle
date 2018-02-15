@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':robin-support-searchable-recycler-view', ':robin-support-commom-tools'

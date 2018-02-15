@@ -14,10 +14,6 @@ import java.util.List;
 
 import cting.com.appinfo.model.AppInfoItem;
 
-/**
- * Created by cting on 2018/2/6.
- */
-
 public class AppDatas {
 
     public static final String TAG = "cting/data/appinfo";

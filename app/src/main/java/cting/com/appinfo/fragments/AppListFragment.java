@@ -1,13 +1,10 @@
 package cting.com.appinfo.fragments;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.text.TextUtils;
@@ -18,19 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cting.com.appinfo.R;
-import cting.com.appinfo.activities.TextActivity;
+import cting.com.robin.support.commom.activities.TextActivity;
 import cting.com.appinfo.databinding.AppInfoItemBinding;
 import cting.com.appinfo.dataprovider.AppDatas;
 import cting.com.appinfo.model.AppInfoItem;
-import cting.com.appinfo.searchable.SearchableListFragment;
-import cting.com.appinfo.utils.FileHelper;
+import cting.com.robin.support.commom.utils.FileHelper;
 import cting.com.appinfo.utils.JSONHelper;
+import cting.com.robin.support.searchablerecyclerview.LoaderFragment;
 
-/**
- * Created by cting on 2018/2/13.
- */
-
-public class AppListFragment extends LoaderFragment<AppInfoItem, AppInfoItemBinding>{
+public class AppListFragment extends LoaderFragment<AppInfoItem, AppInfoItemBinding> {
 
     private static final String TAG = "cting/appinfo/fragment";
     private static final String FILE_NAME = FileHelper.DIR + "app_list.txt";
@@ -70,20 +63,20 @@ public class AppListFragment extends LoaderFragment<AppInfoItem, AppInfoItemBind
     // for IDataImportExport
     @Override
     public void exportData(ArrayList<AppInfoItem> items) {
+        boolean succeed;
         if (DEBUG_GSON) {
-            JSONHelper.exportToJSONFile(FILE_NAME_JSON, items);
+            succeed = JSONHelper.exportToJSONFile(FILE_NAME_JSON, items);
         } else {
             if (items != null) {
                 StringBuilder sb = new StringBuilder();
                 for (AppInfoItem appInfo : items) {
                     sb.append(appInfo.toString()).append("\n");
                 }
-                boolean succeed = FileHelper.exportToFile(sb.toString(), FILE_NAME);
-                Toast.makeText(getContext(), items.size() + " results export to " + FILE_NAME + (succeed ? " succeed" : " failed"),
-                        Toast.LENGTH_SHORT).show();
+                succeed = FileHelper.exportToFile(sb.toString(), FILE_NAME);
             }
-
         }
+        Toast.makeText(getContext(), items.size() + " results export to " + FILE_NAME + (succeed ? " succeed" : " failed"),
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -110,7 +103,6 @@ public class AppListFragment extends LoaderFragment<AppInfoItem, AppInfoItemBind
     @Override
     public void onItemClick(AppInfoItem item) {
         Toast.makeText(getContext(), "click " + item.getLabel(), Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
@@ -123,11 +115,13 @@ public class AppListFragment extends LoaderFragment<AppInfoItem, AppInfoItemBind
     // for loader callback
     @Override
     public Loader<ArrayList<AppInfoItem>> onCreateLoader(int id, Bundle args) {
+        Log.i(TAG, "onCreateLoader: ");
         return new AppInfoLoader(getContext());
     }
 
     @Override
     public void onLoaderReset(Loader<ArrayList<AppInfoItem>> loader) {
+        Log.i(TAG, "onLoaderReset: ");
 
     }
 

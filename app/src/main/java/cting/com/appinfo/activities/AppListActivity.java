@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import cting.com.appinfo.R;
 import cting.com.appinfo.fragments.AppListFragment;
+import cting.com.robin.support.commom.activities.BasePermissionCheckActivity;
 
 public class AppListActivity extends BasePermissionCheckActivity {
 

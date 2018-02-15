@@ -1,8 +1,4 @@
 <resources>
     <string name="app_name">AppInfo</string>
-    <string name="menu_title_search">Search</string>
-    <string name="ic_menu_title_export">export</string>
-    <string name="ic_menu_title_import">import</string>
-    <string name="activity_text">Message</string>
     <string name="activity_app_info">AppInformation</string>
 </resources>

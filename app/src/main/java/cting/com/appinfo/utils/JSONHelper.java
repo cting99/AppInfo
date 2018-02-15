@@ -10,23 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cting.com.appinfo.model.AppInfoItem;
+import cting.com.robin.support.commom.utils.FileHelper;
 
-/**
- * Created by cting on 2018/2/13.
- */
+public class JSONHelper {
 
-public class JSONHelper/*<I extends ISearchableItem>*/ {
-
-    public static void exportToJSONFile(String fileName,ArrayList<AppInfoItem> dataList) {
+    public static boolean exportToJSONFile(String fileName, ArrayList<AppInfoItem> dataList) {
         Wrapper items = new Wrapper(dataList);
         Gson gson = new Gson();
         String content = gson.toJson(items);
-        FileHelper.exportToFile(content, fileName);
+        return FileHelper.exportToFile(content, fileName);
     }
 
     public static List<AppInfoItem> importFromJSONFile(String fileName) {
         FileReader reader = null;
-
         try {
             File file = new File(fileName);
             reader = new FileReader(file);
@@ -51,7 +47,7 @@ public class JSONHelper/*<I extends ISearchableItem>*/ {
     static class Wrapper {
         private List<AppInfoItem> dataList;
 
-        public Wrapper(List<AppInfoItem> dataList) {
+        public Wrapper(ArrayList<AppInfoItem> dataList) {
             this.dataList = dataList;
         }
 

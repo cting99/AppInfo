@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.BasePermissionCheckActivity" />
+
         <activity
             android:label="@string/activity_app_info"
             android:name=".activities.AppListActivity"
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.TextActivity"
+            android:name="cting.com.robin.support.commom.activities.TextActivity"
             android:label="@string/activity_text" />
     </application>
 

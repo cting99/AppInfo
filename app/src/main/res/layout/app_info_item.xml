@@ -7,7 +7,7 @@
     <data>
         <import type="android.graphics.drawable.Drawable" />
         <import type="cting.com.appinfo.model.AppInfoItem" />
-        <import type="cting.com.appinfo.searchable.model.IQuery" />
+        <import type="cting.com.robin.support.searchablerecyclerview.model.IQuery" />
 
         <variable name="icon" type="Drawable" />
         <variable name="appinfo" type="AppInfoItem" />

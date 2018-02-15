@@ -1,16 +1,10 @@
 package cting.com.appinfo.model;
 
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.Serializable;
+import cting.com.robin.support.searchablerecyclerview.model.ISearchableItem;
 
-import cting.com.appinfo.searchable.model.ISearchableItem;
-
-/**
- * Created by cting on 2018/2/6.
- */
 
 public class AppInfoItem implements ISearchableItem, Parcelable {
 
