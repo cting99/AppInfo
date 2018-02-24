@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.graphics.drawable.Drawable" />
+        <import type="cting.com.robin.contacts.model.ContactItem" />
+        <import type="cting.com.robin.support.searchablerecyclerview.model.IQuery" />
+
+        <variable name="icon" type="Drawable" />
+        <variable name="contactInfo" type="ContactItem" />
+        <variable name="queryListener" type="IQuery" />
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:padding="8dp">
+<!--
+        <ImageView
+            android:id="@+id/contact_photo"
+            android:layout_width="@dimen/app_icon_length"
+            android:layout_height="@dimen/app_icon_length"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:src="@{icon ?? @drawable/icon_default}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@mipmap/ic_launcher_round" />
+-->
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            app:keywords="@{queryListener.query}"
+            app:layout_constraintStart_toEndOf="@+id/contact_photo"
+            app:layout_constraintTop_toTopOf="@+id/contact_photo"
+            app:searchableText="@{contactInfo.name}"
+            tools:text="chengting" />
+
+
+        <TextView
+            android:id="@+id/phone_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:ellipsize="end"
+            android:gravity="start|center_vertical"
+            android:maxLines="1"
+            app:keywords="@{queryListener.query}"
+            app:layout_constraintBottom_toBottomOf="@+id/contact_photo"
+            app:layout_constraintStart_toStartOf="@+id/name"
+            app:layout_constraintTop_toBottomOf="@+id/name"
+            app:layout_constraintVertical_bias="0.0"
+            app:searchableText="@{contactInfo.phoneNumber}"
+            tools:text="18268605981" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>
