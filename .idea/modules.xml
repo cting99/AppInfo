@@ -4,8 +4,11 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SearchableRecyclerView.iml" filepath="$PROJECT_DIR$/SearchableRecyclerView.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/robin-support-commom-tools/robin-suport-commom-tools.iml" filepath="$PROJECT_DIR$/robin-support-commom-tools/robin-suport-commom-tools.iml" />
-      <module fileurl="file://$PROJECT_DIR$/robin-support-searchable-recycler-view/robin-support.iml" filepath="$PROJECT_DIR$/robin-support-searchable-recycler-view/robin-support.iml" />
+      <module fileurl="file://$PROJECT_DIR$/contacts/contacts.iml" filepath="$PROJECT_DIR$/contacts/contacts.iml" />
+      <module fileurl="file://D:\Android\workspace\SearchableRecyclerView\robin-support-commom-tools\robin-suport-commom-tools.iml" filepath="D:\Android\workspace\SearchableRecyclerView\robin-support-commom-tools\robin-suport-commom-tools.iml" />
+      <module fileurl="file://D:\Android\workspace\SearchableRecyclerView\robin-support-searchable-recycler-view\robin-support.iml" filepath="D:\Android\workspace\SearchableRecyclerView\robin-support-searchable-recycler-view\robin-support.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robin-support-commom-tools/robin-support-commom-tools.iml" filepath="$PROJECT_DIR$/robin-support-commom-tools/robin-support-commom-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/robin-support-searchable-recycler-view/robin-support-searchable-recycler-view.iml" filepath="$PROJECT_DIR$/robin-support-searchable-recycler-view/robin-support-searchable-recycler-view.iml" />
     </modules>
   </component>
 </project>

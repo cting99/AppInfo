@@ -1,8 +1,10 @@
 package cting.com.appinfo.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.AsyncTaskLoader;
@@ -102,6 +104,14 @@ public class AppListFragment extends LoaderFragment<AppInfoItem, AppInfoItemBind
     // for IClick
     @Override
     public void onItemClick(AppInfoItem item) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Intent intent = new Intent(Intent.ACTION_SHOW_APP_INFO);
+            try {
+                startActivity(intent);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         Toast.makeText(getContext(), "click " + item.getLabel(), Toast.LENGTH_SHORT).show();
     }
 
